@@ -49,7 +49,7 @@ public class RegisterCommand extends BaseCommand {
                 dto.setResponse("success");
             }
             else {
-                dto.setResponse("Login already exists");
+                dto.setResponse("loginAlreadyExists");
             }database.closeQuery();
 //              String sql="INSERT INTO users VALUES (nextval('IdSetter')," + "\'"+ registerCommandDto.getLogin()+ "\', \'" + password +"\', \'" + random+ "\');";
 //          System.out.println(sql);

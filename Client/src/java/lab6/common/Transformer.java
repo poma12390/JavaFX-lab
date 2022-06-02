@@ -38,7 +38,6 @@ public class Transformer {
         man.setCoordinates(CoordinatesToCoordinatesDto(bum.getCoordinates()));
         man.setCreationDate(bum.getCreationDate());
         man.setSalary(bum.getSalary());
-        man.setId(bum.getId());
         man.setStartDate(bum.getStartDate());
         man.setEndDate(bum.getEndDate());
         man.setPerson(PersonToPersonDto(bum.getPerson()));

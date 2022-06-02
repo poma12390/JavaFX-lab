@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import lab6.client.commands.Utils;
+import lab6.common.dto.CommandRequestDto;
 import lab6.gui.AuthFrame;
 import lab6.gui.PropertyWorker;
 import org.slf4j.Logger;
@@ -12,6 +13,8 @@ import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.util.NoSuchElementException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class ClientRunner extends Application {
     AuthFrame authFrame = new AuthFrame();
@@ -23,13 +26,19 @@ public class ClientRunner extends Application {
     private static final Logger logger
             = LoggerFactory.getLogger(ClientRunner.class);
     public static void main(String[] args) {
+        PropertyWorker.init();
         new Thread(() -> {
             // process queue
             launch();
         }).start();
 
 
-        PropertyWorker.init();
+        new Thread(() -> {
+            // process queue
+            ExecutorService executorService = Executors.newFixedThreadPool(5);
+
+        }).start();
+
         InputStream inputStream = System.in;
         InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
         BufferedReader bufferedReader = new BufferedReader(inputStreamReader);

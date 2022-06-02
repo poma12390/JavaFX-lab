@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="706.0" prefWidth="1018.0" style="-fx-background-color: #483D8B;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lab6.gui.main.MainFrame">
+   <children>
+      <Button fx:id="quitButton" layoutX="932.0" layoutY="14.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="66.0" style="-fx-background-color: #ffd400;" text="Выйти" textFill="#221e1e">
+         <font>
+            <Font name="Arial" size="13.0" />
+         </font>
+      </Button>
+      <TabPane layoutY="56.0" prefHeight="655.0" prefWidth="1021.0" style="-fx-background-color: #fafafa;" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab closable="false" text="Основа">
+               <content>
+                  <AnchorPane prefHeight="621.0" prefWidth="1018.0" style="-fx-background-color: #fafafa;">
+                     <children>
+                        <Label fx:id="wrongPass" alignment="TOP_LEFT" layoutX="242.0" layoutY="286.0" prefHeight="31.0" prefWidth="264.0" textFill="#f50202">
+                           <font>
+                              <Font name="Bell MT" size="14.0" />
+                           </font>
+                        </Label>
+                        <ChoiceBox fx:id="selectLanguage" accessibleRole="CHECK_BOX" centerShape="false" layoutY="2.0" opacity="0.59" prefHeight="25.0" prefWidth="49.0" scaleShape="false" style="-fx-background-color: while;" />
+                        <TableView fx:id="table" layoutX="14.0" layoutY="100.0" prefHeight="509.0" prefWidth="805.0">
+                          <columns>
+                              <TableColumn prefWidth="75.0" text="Владелец" />
+                            <TableColumn editable="false" prefWidth="33.0" text="ID" />
+                            <TableColumn editable="false" prefWidth="79.0" text="Имя" />
+                              <TableColumn editable="false" prefWidth="85.0" text="Координаты">
+                                 <columns>
+                                    <TableColumn editable="false" prefWidth="40.0" text="X" />
+                                    <TableColumn editable="false" prefWidth="40.0" text="Y" />
+                                 </columns>
+                              </TableColumn>
+                              <TableColumn fx:id="CreateDate" editable="false" prefWidth="75.0" text="Дата&#10;создания" />
+                              <TableColumn editable="false" prefWidth="75.0" text="Зарплата" />
+                              <TableColumn editable="false" prefWidth="67.0" text="Дата &#10;начала" />
+                              <TableColumn editable="false" prefWidth="75.0" text="Дата &#10;окончания" />
+                              <TableColumn editable="false" prefWidth="75.0" text="Должность" />
+                              <TableColumn editable="false" prefWidth="75.0" text="День&#10;рождения" />
+                              <TableColumn editable="false" prefWidth="43.0" text="Рост" />
+                              <TableColumn editable="false" prefWidth="52.0" text="Вес" />
+                          </columns>
+                        </TableView>
+                        <TitledPane animated="false" layoutX="819.0" layoutY="100.0" text="untitled">
+                          <content>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="278.0" prefWidth="200.0" style="-fx-background-color: silver;">
+                                 <children>
+                                    <TextField fx:id="nameField" layoutX="7.0" layoutY="7.0" prefHeight="31.0" prefWidth="85.0" promptText="Имя" style="-fx-background-color: #F5FFFA; -fx-border-color: silver; -fx-border-radius: 5; -fx-background-size: 10;">
+                                       <font>
+                                          <Font size="15.0" />
+                                       </font>
+                                    </TextField>
+                                    <TextField fx:id="salaryField" layoutX="101.0" layoutY="7.0" prefHeight="31.0" prefWidth="85.0" promptText="Зарплата" style="-fx-background-color: #F5FFFA; -fx-border-color: silver; -fx-border-radius: 5; -fx-background-size: 10;">
+                                       <font>
+                                          <Font size="15.0" />
+                                       </font>
+                                    </TextField>
+                                    <TextField layoutX="7.0" layoutY="47.0" prefHeight="31.0" prefWidth="85.0" promptText="X" style="-fx-background-color: #F5FFFA; -fx-border-color: silver; -fx-border-radius: 5; -fx-background-size: 10;" fx:id="xField">
+                                       <font>
+                                          <Font size="15.0" />
+                                       </font>
+                                    </TextField>
+                                    <TextField fx:id="startDateField" layoutX="7.0" layoutY="87.0" prefHeight="31.0" prefWidth="85.0" promptText="Дата начала" style="-fx-background-color: #F5FFFA; -fx-border-color: silver; -fx-border-radius: 5; -fx-background-size: 10;">
+                                       <font>
+                                          <Font size="15.0" />
+                                       </font>
+                                    </TextField>
+                                    <TextField fx:id="heightField" layoutX="7.0" layoutY="127.0" prefHeight="31.0" prefWidth="85.0" promptText="Рост" style="-fx-background-color: #F5FFFA; -fx-border-color: silver; -fx-border-radius: 5; -fx-background-size: 10;">
+                                       <font>
+                                          <Font size="15.0" />
+                                       </font>
+                                    </TextField>
+                                    <TextField fx:id="birthdayField" layoutX="7.0" layoutY="167.0" prefHeight="31.0" prefWidth="85.0" promptText="ДР" style="-fx-background-color: #F5FFFA; -fx-border-color: silver; -fx-border-radius: 5; -fx-background-size: 10;">
+                                       <font>
+                                          <Font size="15.0" />
+                                       </font>
+                                    </TextField>
+                                    <TextField fx:id="yField" layoutX="101.0" layoutY="47.0" prefHeight="31.0" prefWidth="85.0" promptText="Y" style="-fx-background-color: #F5FFFA; -fx-border-color: silver; -fx-border-radius: 5; -fx-background-size: 10;">
+                                       <font>
+                                          <Font size="15.0" />
+                                       </font>
+                                    </TextField>
+                                    <TextField fx:id="endDateField" layoutX="101.0" layoutY="87.0" prefHeight="31.0" prefWidth="85.0" promptText="Дата конца" style="-fx-background-color: #F5FFFA; -fx-border-color: silver; -fx-border-radius: 5; -fx-background-size: 10;">
+                                       <font>
+                                          <Font size="15.0" />
+                                       </font>
+                                    </TextField>
+                                    <TextField fx:id="weightField" layoutX="101.0" layoutY="127.0" prefHeight="31.0" prefWidth="85.0" promptText="Вес" style="-fx-background-color: #F5FFFA; -fx-border-color: silver; -fx-border-radius: 5; -fx-background-size: 10;">
+                                       <font>
+                                          <Font size="15.0" />
+                                       </font>
+                                    </TextField>
+                                    <ChoiceBox fx:id="positionChoice" accessibleRole="CHECK_BOX" centerShape="false" layoutX="100.0" layoutY="167.0" opacity="0.59" prefHeight="31.0" prefWidth="85.0" scaleShape="false" style="-fx-background-color: #F5FFFA;" />
+                                    <Button fx:id="addWorkerButton" layoutX="10.0" layoutY="211.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="177.0" style="-fx-background-color: #F4A460;" text="Добавить Пользователя" textFill="#221e1e">
+                                       <font>
+                                          <Font name="Arial" size="13.0" />
+                                       </font>
+                                    </Button>
+                                 </children>
+                              </AnchorPane>
+                          </content>
+                        </TitledPane>
+                        <Label fx:id="errorLabel" alignment="CENTER" layoutX="819.0" layoutY="405.0" prefHeight="31.0" prefWidth="202.0" textFill="RED" />
+                     </children>
+                  </AnchorPane>
+               </content>
+          </Tab>
+          <Tab text="Графика">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+            </content>
+          </Tab>
+        </tabs>
+      </TabPane>
+   </children>
+</AnchorPane>

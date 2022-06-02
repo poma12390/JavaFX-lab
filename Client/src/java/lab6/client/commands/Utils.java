@@ -1,16 +1,22 @@
 package lab6.client.commands;
 
 
+import lab6.client.memory.LoginPassword;
+import lab6.client.setterrs.*;
+
 import lab6.common.Coordinates;
 import lab6.common.Person;
 import lab6.common.Position;
 import lab6.common.Worker;
 import lab6.common.exceptions.EndStreamException;
+import lab6.common.exceptions.InvalidDataException;
 import lab6.common.exceptions.MissedCommandArgumentException;
+import lab6.gui.main.MainFrame;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
+import java.text.ParseException;
 import java.time.ZonedDateTime;
 import java.util.*;
 
@@ -114,6 +120,38 @@ public class Utils {
                         .toString()
         ));
         bum.setCreationDate(new Date());
+    }
+    public static Worker upload(String[] sts, Worker bum) {
+
+        try {
+            System.out.println(Arrays.toString(sts));
+            String name = sts[0].trim();
+            SetName.setname(name, bum);
+            String x = sts[1].trim();
+            String y = sts[2].trim();
+            SetCordinates.setcordinates(x, y, bum);
+            String salary = sts[3].trim();
+            SetSalary.setSalary(salary, bum);
+            String startDate = sts[4].trim();
+            SetData.setStartData(startDate, bum);
+            String endDate = sts[5].trim();
+            SetData.setEndData(endDate, bum);
+            String birthday = sts[6].trim();
+            Person person = new Person();
+            SetPersParams.setBirthday(birthday, person);
+            String height = sts[7].trim();
+            SetPersParams.setHeight(height, person);
+            String weight = sts[8].trim();
+            SetPersParams.setWeight(weight, person);
+            bum.setPerson(person);
+            String pos = sts[9].trim();
+            SetPosition.setPosition(pos, bum);
+        }
+        catch (Exception e){
+            bum.setId(1);
+            MainFrame.errors.add(e.getMessage());
+        }
+        return bum;
     }
 
 

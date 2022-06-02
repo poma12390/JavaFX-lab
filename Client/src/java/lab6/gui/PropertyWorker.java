@@ -12,6 +12,8 @@ public class PropertyWorker {
     private static PropertyResourceBundle ruBundle;
     private static PropertyResourceBundle bundle;
 
+    private static String language;
+
     public static PropertyResourceBundle getBundle() {
         return bundle;
     }
@@ -28,11 +30,21 @@ public class PropertyWorker {
         PropertyWorker.bundle = curBundle;
     }
 
+    public static String getLanguage() {
+        return language;
+    }
+
+    public static void setLanguage(String language) {
+        PropertyWorker.language = language;
+    }
+
     public static void setNewBundle(String language) {
         if (language.equals("ru")) {
             setBundle(getRuBundle());
+            setLanguage("ru");
         } else if (language.equals("eng")) {
             setBundle(getEngBundle());
+            setLanguage("eng");
         }
     }
 
@@ -55,7 +67,7 @@ public class PropertyWorker {
             inputStream = Files.newInputStream(file.toPath());
             bundle = new PropertyResourceBundle(inputStream);
             setRuBundle(bundle);
-            setBundle(getEngBundle());
+            setNewBundle("ru");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

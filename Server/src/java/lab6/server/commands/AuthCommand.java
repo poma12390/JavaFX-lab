@@ -54,7 +54,7 @@ public class AuthCommand extends BaseCommand{
 
         }
         else {
-            dto.setResponse("incorrect login or password");
+            dto.setResponse("incorrectLoginOrPassword");
         }
         PackageDto packageDto = new PackageDto(dto,params.getHost(),params.getPort(), params.getDs());
         ServerRunner.queueToSend.add(packageDto);

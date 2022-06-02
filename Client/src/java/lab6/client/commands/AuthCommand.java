@@ -10,6 +10,7 @@ import lab6.common.dto.RegisterCommandDto;
 import lab6.common.exceptions.InvalidDateFormatException;
 import lab6.common.exceptions.InvalidEndDateException;
 import lab6.common.exceptions.InvalidSalaryException;
+import lab6.gui.AuthFrame;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,15 +26,15 @@ public class AuthCommand extends BaseCommand{
 
     @Override
     protected void Execute(List<String> params) throws IOException, InvalidSalaryException, InvalidDateFormatException, ParseException, InvalidEndDateException {
-        ParamsChecker.checkParams(0,params);
         LoginPassword.setPassword(null); // Типо вышли из системы
         LoginPassword.setLogin(null);
 
         AuthCommandDto dto = new AuthCommandDto();
-
-        String login = InputUtils.inputString("login");
+        System.out.println(params.get(0));
+        System.out.println(params.get(1));
+        String login = params.get(0);
         dto.setLogin(login);
-        String password = Transformer.Encrypt(InputUtils.inputString("password"),"1");
+        String password = Transformer.Encrypt(params.get(1),"1");
         dto.setPassword(password);
 
         CommandRequestDto<AuthCommandDto> crd = new CommandRequestDto<>(getName(), dto);
@@ -45,6 +46,7 @@ public class AuthCommand extends BaseCommand{
             LoginPassword.setLogin(login);
             LoginPassword.setPassword(password);
         }
+        AuthFrame.responses.add(response.getResponse());
 
     }
 }
