@@ -8,7 +8,7 @@ public class Person implements Serializable {
         return birthday;
     }
 
-    public float getHeight() {
+    public Float getHeight() {
         return height;
     }
 
@@ -30,6 +30,6 @@ public class Person implements Serializable {
 
 
     private java.time.ZonedDateTime birthday; //Поле не может быть null
-    private float height; //Значение поля должно быть больше 0
+    private Float height; //Значение поля должно быть больше 0
     private Float weight; //Поле не может быть null, Значение поля должно быть больше 0
 }

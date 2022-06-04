@@ -71,7 +71,10 @@ public class AuthFrame {
             } else if (passwordField.getText().isEmpty()) {
                 errorLabel.setText(PropertyWorker.getBundle().getString("emptyPassword"));
             } else {
-                Utils.runCommandFromString("auth " + loginField.getText() + " " + passwordField.getText());
+                new Thread(() -> {
+                    Utils.runCommandFromString("auth " + loginField.getText() + " " + passwordField.getText());
+                }).start();
+
             }
         });
         responseReceiver();
@@ -96,6 +99,7 @@ public class AuthFrame {
             while (true) {
                 String response;
                 try {
+                    System.out.println("123");
                     response = responses.take();
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);

@@ -8,6 +8,8 @@ import lab6.client.commands.Utils;
 import lab6.common.dto.CommandRequestDto;
 import lab6.gui.AuthFrame;
 import lab6.gui.PropertyWorker;
+import lab6.gui.RegisterFrame;
+import lab6.gui.main.MainFrame;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,11 +17,15 @@ import java.io.*;
 import java.util.NoSuchElementException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.LinkedBlockingDeque;
 
 public class ClientRunner extends Application {
     AuthFrame authFrame = new AuthFrame();
     @Override
     public void start(Stage stage) throws Exception {
+        AuthFrame.responses= new LinkedBlockingDeque<>();
+        RegisterFrame.responses = new LinkedBlockingDeque<>();
+        MainFrame.errors = new LinkedBlockingDeque<>();
         authFrame.start();
 
     }

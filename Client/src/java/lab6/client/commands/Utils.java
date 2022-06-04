@@ -10,6 +10,7 @@ import lab6.common.Position;
 import lab6.common.Worker;
 import lab6.common.exceptions.EndStreamException;
 import lab6.common.exceptions.InvalidDataException;
+import lab6.common.exceptions.InvalidNumberException;
 import lab6.common.exceptions.MissedCommandArgumentException;
 import lab6.gui.main.MainFrame;
 import org.slf4j.Logger;
@@ -149,7 +150,6 @@ public class Utils {
         }
         catch (Exception e){
             bum.setId(1);
-            MainFrame.errors.add(e.getMessage());
         }
         return bum;
     }

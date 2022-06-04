@@ -5,6 +5,10 @@ import lab6.common.Transformer;
 import lab6.common.dto.CommandResponseDto;
 import lab6.common.exceptions.AuthorizationException;
 import lab6.common.exceptions.ServerNotFoundException;
+import lab6.common.exceptions.ServerNotResponseException;
+import lab6.gui.AuthFrame;
+import lab6.gui.RegisterFrame;
+import lab6.gui.main.MainFrame;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -64,6 +68,9 @@ public class ServerCaller {
                     }
                     if (i < 4) {
                         logger.warn("Trying to connect to server");
+                        AuthFrame.responses.add("waitingConnection");
+                        RegisterFrame.responses.add("waitingConnection");
+                        MainFrame.errors.add("waitingConnection");
                     } else throw new ServerNotFoundException();
                 } catch (IOException e) {
                     throw new RuntimeException(e);

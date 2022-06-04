@@ -3,8 +3,7 @@ package lab6.client.setterrs;
 
 import lab6.common.Person;
 import lab6.common.Worker;
-import lab6.common.exceptions.EmptyStringException;
-import lab6.common.exceptions.InvalidDateFormatException;
+import lab6.common.exceptions.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -14,34 +13,45 @@ import java.time.ZonedDateTime;
 import java.util.Date;
 
 public class SetPersParams {
-    public static void setHeight(String height, Person pers) throws EmptyStringException, NumberFormatException {
+    public static void setHeight(String height, Person pers) throws EmptyHeightException, HeightFormatException {
         if (height.isEmpty()){
-            throw new EmptyStringException();
+            throw new EmptyHeightException();
         }
         else {
-            float f = Float.parseFloat(height);
+            float f;
+            try {
+                f = Float.parseFloat(height);
+            }catch (NumberFormatException e){
+                throw new HeightFormatException();
+            }
+
             if (f == 0 | f < 0) {
-                throw new EmptyStringException();
+                throw new EmptyHeightException();
             } else {
                 pers.setHeight(f);
             }
         }
     }
 
-    public static void setWeight(String weight, Person pers) throws EmptyStringException, NumberFormatException{
+    public static void setWeight(String weight, Person pers) throws EmptyWeightException, WeightFormatException {
         if (weight.isEmpty()){
-            throw new EmptyStringException();
+            throw new EmptyWeightException();
         }
         else {
-            float f = Float.parseFloat(weight);
+            float f;
+            try {
+                f = Float.parseFloat(weight);
+            }catch (NumberFormatException e){
+                throw new WeightFormatException();
+            }
             if (f == 0 | f < 0) {
-                throw new EmptyStringException();
+                throw new EmptyWeightException();
             } else {
                 pers.setWeight(f);
             }
         }
     }
-    public static void setBirthday(String birthday, Person pers) throws ParseException, InvalidDateFormatException {
+    public static void setBirthday(String birthday, Person pers) throws ParseException, InvalidBirthdayFormatException {
         String regex = "\\d{2}\\.\\d{2}.\\d{4}";
         if (birthday.matches(regex)) {
             SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
@@ -51,7 +61,7 @@ public class SetPersParams {
             ZonedDateTime zonedDateTime = instant.atZone(defaultZoneId);
             pers.setBirthday(zonedDateTime);
         } else {
-            throw new InvalidDateFormatException();
+            throw new InvalidBirthdayFormatException();
         }
     }
 

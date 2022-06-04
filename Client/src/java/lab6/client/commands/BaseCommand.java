@@ -4,6 +4,9 @@ import lab6.client.ServerCaller;
 import lab6.client.memory.HistoryWork;
 import lab6.common.Transformer;
 import lab6.common.exceptions.*;
+import lab6.gui.AuthFrame;
+import lab6.gui.RegisterFrame;
+import lab6.gui.main.MainFrame;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Marker;
@@ -54,9 +57,16 @@ public abstract class BaseCommand {
         try {
             Execute(params);
             HistoryWork.historyAdd(name);
-        } catch (ServerNotFoundException|  InvalidEndDateException | FileNotFoundException | MissedCommandArgumentException | EmptyCollectionException | InvalidSalaryException | InvalidDateFormatException | RecursiveScriptExecuteException | AuthorizationException e){
+        } catch (ServerNotFoundException|  InvalidEndDateException  | MissedCommandArgumentException | EmptyCollectionException | InvalidSalaryException | InvalidDateFormatException | RecursiveScriptExecuteException | AuthorizationException e){
+            //FileNotFoundException
             logger.warn(marker, e.getMessage());
-        } catch (IOException e) {
+        }catch (FileNotFoundException e){
+            logger.warn(marker, e.getMessage());
+            AuthFrame.responses.add("cantFoundFile");
+            RegisterFrame.responses.add("cantFoundFile");
+            MainFrame.errors.add("cantFoundFile");
+        }
+        catch (IOException e) {
             e.printStackTrace();
         } catch (ParseException e) {
             logger.error("ошибка парсера");

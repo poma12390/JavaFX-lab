@@ -9,7 +9,7 @@ public class Coordinates implements Serializable {
         this.y = y;
     }
 
-    public long getX() {
+    public Long getX() {
         return x;
     }
 

@@ -3,6 +3,8 @@ package lab6.client.setterrs;
 import lab6.common.Worker;
 import lab6.common.exceptions.EndDateException;
 import lab6.common.exceptions.InvalidDateFormatException;
+import lab6.common.exceptions.InvalidEndDateFormatException;
+import lab6.common.exceptions.InvalidStartDateException;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -10,14 +12,14 @@ import java.util.Date;
 
 public class SetData {
     private static Date endDateMoreStartDate;
-    public static void  setStartData(String startDate, Worker bum) throws InvalidDateFormatException, ParseException {
+    public static void  setStartData(String startDate, Worker bum) throws ParseException, InvalidStartDateException {
         String regex = "\\d{2}\\.\\d{2}.\\d{4}";
         if (startDate.matches(regex)) {
             String[] items = startDate.split("\\.");
             int y = Integer.parseInt(items[0]);
             int y1 = Integer.parseInt(items[1]);
             if (y>31 | y1 > 12){
-                throw new InvalidDateFormatException();
+                throw new InvalidStartDateException();
             }
             else {
                 SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
@@ -26,10 +28,10 @@ public class SetData {
                 bum.setStartDate(date);
             }
         } else {
-            throw new InvalidDateFormatException();
+            throw new InvalidStartDateException();
         }
     }
-    public static void setEndData(String endDate, Worker bum) throws ParseException, InvalidDateFormatException, EndDateException {
+    public static void setEndData(String endDate, Worker bum) throws ParseException, InvalidDateFormatException, EndDateException, InvalidEndDateFormatException {
         String regex = "\\d{2}\\.\\d{2}.\\d{4}";
         if (endDate.matches(regex)) {
             String[] items = endDate.split("\\.");
@@ -48,7 +50,7 @@ public class SetData {
                 bum.setEndDate(date);
             }
         } else {
-            throw new InvalidDateFormatException();
+            throw new InvalidEndDateFormatException();
         }
     }
 
