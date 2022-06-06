@@ -1,6 +1,8 @@
 package lab6.client.commands;
 
 import lab6.client.memory.HistoryWork;
+import lab6.common.exceptions.EmptyHistoryException;
+import lab6.gui.main.MainFrame;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,11 +23,18 @@ public class HistoryCommand extends BaseCommand {
         ParamsChecker.checkParams(0, params);
         ArrayList<String> history = HistoryWork.getHistory();
         if (history.size() == 0) {
-            logger.error("cant be first command");
+            try {
+                throw  new EmptyHistoryException();
+            } catch (EmptyHistoryException e) {
+                MainFrame.errors.add("emptyHistory");
+            }
         } else {
             for (String s : history) {
                 logger.info(s + " ");
+                MainFrame.responses.add(s);
+                MainFrame.responses.add("\r\n");
             }
+
         }
         logger.info("");
     }

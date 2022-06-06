@@ -4,6 +4,7 @@ import lab6.client.memory.LoginPassword;
 import lab6.common.dto.CommandRequestDto;
 import lab6.common.dto.CommandResponseDto;
 import lab6.common.dto.RemoveByIdCommandDto;
+import lab6.gui.main.MainFrame;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -48,6 +49,15 @@ public class RemoveByIdCommand extends BaseCommand {
         dto = (RemoveByIdCommandDto) response.getCommandArgs();
         long count = dto.getCount();
         logger.info("Deleted " +count + " elements");
+        if (count == 0){
+            MainFrame.errors.add("noSuchId");
+        }
+        else {
+            MainFrame.responses.add("deleted");
+            MainFrame.responses.add(String.valueOf(count));
+            MainFrame.responses.add("elements");
+            MainFrame.responses.add("\r\n");
+        }
 
     }
 }

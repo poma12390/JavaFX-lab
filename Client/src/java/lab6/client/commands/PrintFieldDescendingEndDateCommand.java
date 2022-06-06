@@ -3,6 +3,7 @@ package lab6.client.commands;
 import lab6.common.dto.CommandRequestDto;
 import lab6.common.dto.CommandResponseDto;
 import lab6.common.dto.PrintFieldDescendingEndDateCommandDto;
+import lab6.gui.main.MainFrame;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,6 +39,8 @@ public class PrintFieldDescendingEndDateCommand extends BaseCommand {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
         for (Date i : responselist){
             logger.info(simpleDateFormat.format(i) + "; ");
+            MainFrame.responses.add(simpleDateFormat.format(i));
+            MainFrame.responses.add("\r\n");
         }
 
     }

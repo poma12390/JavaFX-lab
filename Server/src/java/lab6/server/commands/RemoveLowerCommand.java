@@ -38,21 +38,25 @@ public class RemoveLowerCommand extends BaseCommand {
         } else {
             if (set.size() == 0) {
                 dto.setResponse("Collection is empty");
-                PackageDto packageDto = new PackageDto(dto,params.getHost(),params.getPort(), params.getDs());
+                PackageDto packageDto = new PackageDto(dto, params.getHost(), params.getPort(), params.getDs());
                 ServerRunner.queueToSend.add(packageDto);
                 clientCaller.send(packageDto);
                 throw new EmptyCollectionException();
             }
             List<Worker> set1 = set.stream().filter((p) -> p.getUser().equals(params.getLogin())).collect(Collectors.toList());
-            Worker min = Collections.min(set1);
-            try {
-                int count = Commands.getDatabase().executeUpdate("delete from workers where username = ? and name = ? and salary = ? and creationdate = ?", params.getLogin(), min.getName(), min.getSalary(), min.getCreationDate());
-                dto.setResponse("success");
-                set.remove(min);
-            } catch (SQLException ignored) {
+            if (set1.size() == 0) {
+                dto.setResponse("Collection is empty");
+            } else {
+                Worker min = Collections.min(set1);
+                try {
+                    int count = Commands.getDatabase().executeUpdate("delete from workers where username = ? and name = ? and salary = ? and creationdate = ?", params.getLogin(), min.getName(), min.getSalary(), min.getCreationDate());
+                    dto.setResponse("success");
+                    set.remove(min);
+                } catch (SQLException ignored) {
+
+                }
 
             }
-
         }
         PackageDto packageDto = new PackageDto(dto,params.getHost(),params.getPort(), params.getDs());
         ServerRunner.queueToSend.add(packageDto);

@@ -4,9 +4,11 @@ import lab6.client.ServerReceiver;
 import lab6.common.dto.CommandRequestDto;
 import lab6.common.dto.CommandResponseDto;
 import lab6.common.dto.InfoCommandDto;
+import lab6.gui.main.MainFrame;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class InfoCommand extends BaseCommand {
@@ -27,5 +29,14 @@ public class InfoCommand extends BaseCommand {
 
         CommandResponseDto response = (CommandResponseDto) transformer.DeSerialize(buf);
         logger.info(response.getResponse());
+        String[] strings = response.getResponse().split("\r\n");
+        for (String i:strings){
+            String[] words = i .split(" ");
+//            for (String j: words){
+//                MainFrame.responses.add(j)
+//            }
+            MainFrame.responses.addAll(Arrays.asList(words));
+            MainFrame.responses.add("\r\n");
+        }
     }
 }

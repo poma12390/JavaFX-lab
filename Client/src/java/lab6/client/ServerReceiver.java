@@ -8,7 +8,7 @@ import java.nio.channels.DatagramChannel;
 
 public class ServerReceiver {
 
-    public static SocketAddress receiveFromServer(DatagramChannel dc, ByteBuffer buf, InetAddress host, int port) {
+    public synchronized static SocketAddress receiveFromServer(DatagramChannel dc, ByteBuffer buf, InetAddress host, int port) {
         try {
             SocketAddress addr;
             addr = dc.receive(buf);

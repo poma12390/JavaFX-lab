@@ -2,6 +2,7 @@ package lab6.client.commands;
 
 import lab6.common.exceptions.EndStreamException;
 import lab6.client.memory.OverflowChecker;
+import lab6.gui.main.MainFrame;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -54,6 +55,9 @@ public class ExecuteScriptCommand extends BaseCommand {
                         try {
                             String commandWithParameters = inputString("");
                             logger.info("doing " + commandWithParameters);
+                            MainFrame.responses.add("doing");
+                            MainFrame.responses.add(commandWithParameters);
+                            MainFrame.responses.add("\r\n");
                             runCommandFromString(commandWithParameters);
                         } catch (EndStreamException e) {
                             break;

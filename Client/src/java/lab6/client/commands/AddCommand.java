@@ -10,6 +10,7 @@ import lab6.common.dto.WorkerDto;
 import lab6.common.exceptions.InvalidDateFormatException;
 import lab6.common.exceptions.InvalidEndDateException;
 import lab6.common.exceptions.InvalidSalaryException;
+import lab6.gui.main.MainFrame;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,9 +26,13 @@ public class AddCommand extends BaseCommand {
     @Override
     protected void Execute(List<String> params) throws IOException, InvalidSalaryException, InvalidDateFormatException, ParseException, InvalidEndDateException {
         Worker bum = new Worker(LoginPassword.getLogin());
-
-        String[] strings = params.toArray(new String[0]);
-        Utils.upload(strings, bum);
+        if (params.size()==0){
+            Utils.updateAll(bum);
+        }
+        else {
+            String[] strings = params.toArray(new String[0]);
+            Utils.upload(strings, bum);
+        }
         if (bum.getId() == null) {
             // Utils.updateAll(bum);
             AddCommandDto dto = new AddCommandDto();
@@ -40,6 +45,14 @@ public class AddCommand extends BaseCommand {
 
             CommandResponseDto response = (CommandResponseDto) transformer.DeSerialize(buf);
             logger.info(response.getResponse());
+            if (response.getResponse().toLowerCase().equals("success")){
+                MainFrame.responses.add("successfullyAdd");
+            }
+            else {
+                MainFrame.responses.add(response.getResponse());
+            }
+            MainFrame.responses.add("\n\r");
+
         }
 
     }

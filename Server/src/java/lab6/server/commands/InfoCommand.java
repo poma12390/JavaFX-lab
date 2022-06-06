@@ -10,6 +10,7 @@ import lab6.server.ClientCaller;
 import lab6.server.ServerRunner;
 
 import java.io.Serializable;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 
@@ -32,13 +33,11 @@ public class InfoCommand extends BaseCommand {
                 response = response + "empty collection";
             } else {
                 long count = set.stream().filter((p) -> p.getUser().equals(params.getLogin())).count();
-                Iterator<Worker> it = set.iterator();
-                Worker p1 = it.next();
-                response = response + "Collection size " + size + "\r\n"
-                        + "Type - Worker \r\n"
-                        + "Created date - " + p1.getCreationDate()  + "\r\n"
-                        + "your elements - " + count;
 
+                response = response + "Collection size - " + size + "\r\n"
+                        + "Type - Worker \r\n"
+                            + "Created date - " + set.stream().min(Comparator.comparing(Worker::getCreationDate)).get().getCreationDate()  + "\r\n"
+                        + "your elements - " + count;
             }
 
             dto.setResponse(response);

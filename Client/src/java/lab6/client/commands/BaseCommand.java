@@ -46,7 +46,7 @@ public abstract class BaseCommand {
         return 0;
     }
 
-    protected abstract void Execute(List<String> params) throws IOException, InvalidSalaryException, InvalidDateFormatException, ParseException, InvalidEndDateException;
+    protected abstract void Execute(List<String> params) throws IOException, InvalidSalaryException, InvalidDateFormatException, ParseException, InvalidEndDateException, IdFormatException;
 
     public String getName() {
         return name;
@@ -56,8 +56,10 @@ public abstract class BaseCommand {
         //ParamsChecker.checkParams(getCommandParamsCount(), params);
         try {
             Execute(params);
-            HistoryWork.historyAdd(name);
-        } catch (ServerNotFoundException|  InvalidEndDateException  | MissedCommandArgumentException | EmptyCollectionException | InvalidSalaryException | InvalidDateFormatException | RecursiveScriptExecuteException | AuthorizationException e){
+            if (!name.toLowerCase().equals("show")) {
+                HistoryWork.historyAdd(name);
+            }
+        } catch (ServerNotFoundException| IdFormatException | InvalidEndDateException  | MissedCommandArgumentException | EmptyCollectionException | InvalidSalaryException | InvalidDateFormatException | RecursiveScriptExecuteException | AuthorizationException e){
             //FileNotFoundException
             logger.warn(marker, e.getMessage());
         }catch (FileNotFoundException e){

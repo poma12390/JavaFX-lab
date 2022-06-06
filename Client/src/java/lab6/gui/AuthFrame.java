@@ -2,13 +2,23 @@ package lab6.gui;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.effect.Blend;
+import javafx.scene.effect.BlendMode;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.effect.InnerShadow;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.text.*;
 import javafx.stage.Stage;
 import lab6.client.commands.Utils;
+import lab6.gui.main.Shake;
 import lab6.gui.main.MainFrame;
 
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.StandardCharsets;
 import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.LinkedBlockingDeque;
 
@@ -32,34 +42,43 @@ public class AuthFrame {
     private ChoiceBox<String> selectLanguage;
 
     @FXML
-    private Label authTitle;
+    private TextFlow authFlow;
+
 
     @FXML
-    private Label errorLabel;
+    private TextFlow errorFlow;
 
-    private final String[] languages = {"eng", "ru"};
+    private final String[] languages = {"ru","eng", "lt", "et"};
+
+    private volatile static String curError;
+
+    private volatile static Text curText;
+
+    private volatile static Text errorText;
 
     @FXML // fx:id="registerButton"
     private Button registerButton; // Value injected by FXMLLoader
 
-    public void start() {
-        Stage authStage = Controller.openWindow("../gui/assets/authFrame.fxml");
-        authStage.setTitle(PropertyWorker.getBundle().getString("titleAuth"));
 
+    public void start() {
+
+
+        Stage authStage = Controller.openWindow("../gui/assets/authFrame.fxml");
         authStage.show();
+
 
     }
 
     @FXML
     void initialize() {
+
         responses = new LinkedBlockingDeque<>();
         selectLanguage.getItems().addAll(languages);
-        localization(PropertyWorker.getLanguage());
+
         registerButton.setOnAction(event -> {
             registerButton.disarm();
             registerButton.getScene().getWindow().hide();
             Stage registerStage = Controller.openWindow("../gui/assets/registerFrame.fxml");
-            registerStage.setTitle(PropertyWorker.getBundle().getString("titleReg"));
             registerStage.show();
         });
         selectLanguage.setOnAction(event -> {
@@ -67,30 +86,56 @@ public class AuthFrame {
         });
         loginButton.setOnAction(event -> {
             if (loginField.getText().isEmpty()) {
-                errorLabel.setText(PropertyWorker.getBundle().getString("emptyUsername"));
+                blockButtons();
+                responses.add("emptyUsername");
+                enableButtons();
             } else if (passwordField.getText().isEmpty()) {
-                errorLabel.setText(PropertyWorker.getBundle().getString("emptyPassword"));
+                blockButtons();
+                responses.add("emptyPassword");
+                enableButtons();
             } else {
                 new Thread(() -> {
+                    blockButtons();
                     Utils.runCommandFromString("auth " + loginField.getText() + " " + passwordField.getText());
+                    enableButtons();
                 }).start();
 
             }
         });
+
+        curText=Controller.getTitleText();
+        errorText = Controller.getErrorText();
+
         responseReceiver();
+        localization(PropertyWorker.getLanguage());
+    }
+    private void blockButtons(){
+        loginButton.setDisable(true);
+        registerButton.setDisable(true);
+    }
+
+    private void enableButtons(){
+        loginButton.setDisable(false);
+        registerButton.setDisable(false);
     }
 
 
     public void localization(String language) {
         PropertyWorker.setNewBundle(language);
-        authTitle.setText(PropertyWorker.getBundle().getString("titleAuth"));
+        curText.setText(PropertyWorker.getBundle().getString("titleAuth"));
+        authFlow.getChildren().clear();
+        authFlow.getChildren().add(curText);
         loginField.setPromptText(PropertyWorker.getBundle().getString("login"));
         passwordField.setPromptText(PropertyWorker.getBundle().getString("password"));
         loginButton.setText(PropertyWorker.getBundle().getString("logInButton"));
         registerButton.setText(PropertyWorker.getBundle().getString("signUpButton"));
         selectLanguage.setValue(PropertyWorker.getLanguage());
-        errorLabel.setText("");
-        System.out.println(PropertyWorker.getBundle().getString("titleAuth"));
+        errorFlow.getChildren().clear();
+        errorFlow.getChildren().add(new Text(""));
+        if (curError != null) {
+            errorText.setText(PropertyWorker.getBundle().getString(curError));
+            errorFlow.getChildren().add(errorText);
+        }
 
     }
 
@@ -99,21 +144,32 @@ public class AuthFrame {
             while (true) {
                 String response;
                 try {
-                    System.out.println("123");
                     response = responses.take();
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
-
                 Platform.runLater(() -> {
-                    if (response.equals("success")) {
+                    errorFlow.getChildren().clear();
+                });
+                if (response.equals("success")) {
+                    curError=null;
+                    Platform.runLater(() -> {
                         loginButton.getScene().getWindow().hide();
                         MainFrame mainFrame = new MainFrame();
                         mainFrame.start();
-                    } else {
-                        errorLabel.setText(PropertyWorker.getBundle().getString(response));
-                    }
-                });
+                    });
+                } else {
+                    Shake.Shake(loginField);
+                    Shake.Shake(passwordField);
+                    curError = response;
+                    errorText.setText(PropertyWorker.getBundle().getString(curError));
+                    //Text text  = Controller.getErrorText();
+                    Platform.runLater(() -> {
+                        errorFlow.getChildren().clear();
+                        errorFlow.getChildren().add(errorText);
+                    });
+                }
+
             }
             // выполнение в отдельном потоке
 

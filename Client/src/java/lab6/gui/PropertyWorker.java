@@ -10,6 +10,18 @@ public class PropertyWorker {
 
     private static PropertyResourceBundle engBundle;
     private static PropertyResourceBundle ruBundle;
+
+    private static PropertyResourceBundle ltBundle;
+
+    public static PropertyResourceBundle getEtBundle() {
+        return etBundle;
+    }
+
+    public static void setEtBundle(PropertyResourceBundle etBundle) {
+        PropertyWorker.etBundle = etBundle;
+    }
+
+    private static PropertyResourceBundle etBundle;
     private static PropertyResourceBundle bundle;
 
     private static String language;
@@ -45,6 +57,12 @@ public class PropertyWorker {
         } else if (language.equals("eng")) {
             setBundle(getEngBundle());
             setLanguage("eng");
+        }else if (language.equals("lt")){
+            setBundle(getLtBundle());
+            setLanguage("lt");
+        }else if (language.equals("et")){
+            setBundle(getEtBundle());
+            setLanguage("et");
         }
     }
 
@@ -54,6 +72,14 @@ public class PropertyWorker {
 
     public static void setRuBundle(PropertyResourceBundle ruBundle) {
         PropertyWorker.ruBundle = ruBundle;
+    }
+
+    public static PropertyResourceBundle getLtBundle() {
+        return ltBundle;
+    }
+
+    public static void setLtBundle(PropertyResourceBundle ltBundle) {
+        PropertyWorker.ltBundle = ltBundle;
     }
 
     public static void init() {
@@ -67,6 +93,17 @@ public class PropertyWorker {
             inputStream = Files.newInputStream(file.toPath());
             bundle = new PropertyResourceBundle(inputStream);
             setRuBundle(bundle);
+
+            file = new File("./src/java/lab6/gui/assets/gui_lt_LT.properties");
+            inputStream = Files.newInputStream(file.toPath());
+            bundle = new PropertyResourceBundle(inputStream);
+            setLtBundle(bundle);
+
+            file = new File("./src/java/lab6/gui/assets/gui_et_ET.properties");
+            inputStream = Files.newInputStream(file.toPath());
+            bundle = new PropertyResourceBundle(inputStream);
+            setEtBundle(bundle);
+
             setNewBundle("ru");
         } catch (IOException e) {
             throw new RuntimeException(e);

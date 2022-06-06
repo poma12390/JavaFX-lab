@@ -68,4 +68,8 @@ public class SetPersParams {
     public static void setPersToWork(Person pers, Worker bum){
         bum.setPerson(pers);
     }
+    public static Integer parseInt(String input){
+        return Integer.parseInt(input);
+
+    }
 }

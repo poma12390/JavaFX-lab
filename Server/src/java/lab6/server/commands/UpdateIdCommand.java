@@ -39,8 +39,13 @@ public class UpdateIdCommand extends BaseCommand {
                 Worker newbum = Transformer.WorkerDtoToWorker(updateIdCommandDto.getWorkerDto());
                 Worker bum = Commands.getWorkerById(updateIdCommandDto.getWorkerId());
                 Commands.updateWorkerById(updateIdCommandDto.getWorkerId(), newbum);
-                Transformer.WorkerToWorker(bum, newbum);
-                dto.setResponse("Success");
+                if (bum.getUser().equals(updateIdCommandDto.getWorkerDto().getUser())) {
+                    Transformer.WorkerToWorker(bum, newbum);
+                    dto.setResponse("Success");
+                }
+                else {
+                    dto.setResponse("Not your element");
+                }
             } else {
                 try {
                     ResultSet set1 = Commands.getDatabase().executeQuery("select * from workers where id = ?", updateIdCommandDto.getWorkerId());

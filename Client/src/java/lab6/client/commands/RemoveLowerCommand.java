@@ -4,6 +4,7 @@ import lab6.client.ServerReceiver;
 import lab6.common.dto.CommandRequestDto;
 import lab6.common.dto.CommandResponseDto;
 import lab6.common.dto.RemoveLowerCommandDto;
+import lab6.gui.main.MainFrame;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,6 +35,16 @@ public class RemoveLowerCommand extends BaseCommand {
         CommandResponseDto response = (CommandResponseDto) transformer.DeSerialize(buf);
 
         logger.info(response.getResponse());
+        if(response.getResponse().equals("Collection is empty")){
+            MainFrame.errors.add("emptyCollection");
+        }else if (response.getResponse().toLowerCase().equals("success")){
+            MainFrame.responses.add("\r\n");
+            MainFrame.responses.add("successfullyRem");
+        }else {
+            MainFrame.responses.add("\r\n");
+            MainFrame.responses.add(response.getResponse());
+        }
+
 
     }
 }

@@ -29,7 +29,7 @@ public class ServerCaller {
     SocketAddress addr;
     SocketAddress addr1;
 
-    public byte[] sendToServer(byte[] arr) {
+    public synchronized byte[] sendToServer(byte[] arr) {
 
 
         try {

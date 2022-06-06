@@ -3,7 +3,11 @@ package lab6.gui;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.paint.Color;
+import javafx.scene.text.*;
 import lab6.client.commands.Utils;
+import lab6.gui.main.MainFrame;
+import lab6.gui.main.Shake;
 
 import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.LinkedBlockingDeque;
@@ -20,7 +24,7 @@ public class RegisterFrame {
     @FXML
     private TextField loginField;
     @FXML
-    private Label regTitle;
+    private TextFlow registerFlow;
 
     @FXML
     private PasswordField passwordField;
@@ -33,19 +37,23 @@ public class RegisterFrame {
 
 
     @FXML
-    private Label wrongPass;
+    private TextFlow errorFlow;
     @FXML
     private ChoiceBox<String> selectLanguage;
 
-    private final String[] languages = {"eng", "ru"};
+    private final String[] languages = {"ru","eng", "lt", "et"};
+
+    private static Text curText;
+
+    private volatile static Text errorText;
+
+    private static String curError;
 
 
     @FXML
     void initialize() {
         responses = new LinkedBlockingDeque<>();
         selectLanguage.getItems().addAll(languages);
-        localization(PropertyWorker.getLanguage());
-
         registerButton.setOnAction(event -> {
             if (passwordField!=null) passwordField.setText(passwordField.getText().trim());
             if (passwordField1!=null) passwordField1.setText(passwordField1.getText().trim());
@@ -66,7 +74,7 @@ public class RegisterFrame {
                 }).start();
 
             }
-            responseReceiver();
+
         });
         loginButton.setOnAction(event -> {
             loginButton.getScene().getWindow().hide();
@@ -76,19 +84,32 @@ public class RegisterFrame {
         selectLanguage.setOnAction(event -> {
             localization(selectLanguage.getValue());
         });
+
+        curText=Controller.getTitleText();
+        errorText = Controller.getErrorText();
+        localization(PropertyWorker.getLanguage());
+        responseReceiver();
+
     }
 
 
     public void localization(String language) {
         PropertyWorker.setNewBundle(language);
+        curText.setText(PropertyWorker.getBundle().getString("titleReg"));
         loginField.setPromptText(PropertyWorker.getBundle().getString("login"));
         passwordField.setPromptText(PropertyWorker.getBundle().getString("password"));
         passwordField1.setPromptText(PropertyWorker.getBundle().getString("repeatSingInButton"));
         loginButton.setText(PropertyWorker.getBundle().getString("logInButton"));
         registerButton.setText(PropertyWorker.getBundle().getString("signUpButton"));
-        regTitle.setText(PropertyWorker.getBundle().getString("titleReg"));
+        registerFlow.getChildren().clear();
+        registerFlow.getChildren().add(curText);
         selectLanguage.setValue(language);
-        wrongPass.setText("");
+        errorFlow.getChildren().clear();
+        errorFlow.getChildren().add(new Text(""));
+        if (curError != null) {
+            errorText.setText(PropertyWorker.getBundle().getString(curError));
+            errorFlow.getChildren().add(errorText);
+        }
     }
 
     private void responseReceiver() {
@@ -97,21 +118,41 @@ public class RegisterFrame {
                 String response;
                 try {
                     response = RegisterFrame.responses.take();
+
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
 
                 Platform.runLater(() -> {
-                    if (response.equals("success")) {
-                        loginButton.getScene().getWindow().hide();
-                        AuthFrame authFrame = new AuthFrame();
-                        authFrame.start();
-                    } else {
-                        wrongPass.setText(PropertyWorker.getBundle().getString(response));
-                    }
+                    errorFlow.getChildren().clear();
                 });
+                if (response.equals("success")) {
+                    curError=null;
+                    Platform.runLater(() -> {
+                        loginButton.getScene().getWindow().hide();
+                    });
+                    MainFrame mainFrame = new MainFrame();
+                    mainFrame.start();
+                } else {
+                    Shake.Shake(loginField);
+                    Shake.Shake(passwordField);
+                    Shake.Shake(passwordField1);
+                    curError = response;
+
+                    errorText.setText(PropertyWorker.getBundle().getString(response));
+                    Text text = Controller.getErrorText();
+                    text.setText(PropertyWorker.getBundle().getString(curError));
+                    PropertyWorker.getBundle().getString(curError);
+                    System.out.println(response);
+                    System.out.println(PropertyWorker.getBundle().getString(response));
+                    Platform.runLater(() -> {
+                        System.out.println(text);
+                        errorFlow.getChildren().clear();
+                        errorFlow.getChildren().add(text);
+
+                    });
+                }
             }
-            // выполнение в отдельном потоке
 
         }).start();
     }

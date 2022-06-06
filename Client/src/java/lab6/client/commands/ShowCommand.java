@@ -5,6 +5,7 @@ import lab6.common.Worker;
 import lab6.common.dto.CommandRequestDto;
 import lab6.common.dto.CommandResponseDto;
 import lab6.common.dto.ShowCommandDto;
+import lab6.gui.main.MainFrame;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,11 +33,14 @@ public class ShowCommand extends BaseCommand {
 
         dto = (ShowCommandDto) response.getCommandArgs();
         List<Worker> workers = (List<Worker>) dto.getWorkers();
+        if (!MainFrame.showBoolean) {
+            MainFrame.shows.add(workers);
+        }
         if (workers.size() == 0) {
             logger.error("Collection is empty");
         } else {
             for (Worker i : workers) {
-                logger.info(String.valueOf(i));
+                //logger.info(String.valueOf(i));
             }
         }
 

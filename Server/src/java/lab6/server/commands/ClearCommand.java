@@ -30,6 +30,7 @@ public class ClearCommand extends BaseCommand {
                 int count = Commands.getDatabase().executeUpdate("delete from workers where username = ?", params.getLogin());
                 set.removeIf(worker -> worker.getUser().equals(params.getLogin()));
                 dto.setResponse("deleted " + count + " elements");
+                dto.getCommandArgs().setCount(count);
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }

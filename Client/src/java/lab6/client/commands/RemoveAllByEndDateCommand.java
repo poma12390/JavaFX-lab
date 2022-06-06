@@ -5,6 +5,7 @@ import lab6.common.dto.CommandResponseDto;
 import lab6.common.dto.RemoveAllByEndDateCommandDto;
 import lab6.common.exceptions.InvalidDateFormatException;
 import lab6.common.exceptions.InvalidEndDateException;
+import lab6.gui.main.MainFrame;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -63,9 +64,15 @@ public class RemoveAllByEndDateCommand extends BaseCommand {
         CommandResponseDto response = (CommandResponseDto) transformer.DeSerialize(buf);
         dto = (RemoveAllByEndDateCommandDto) response.getCommandArgs();
         long count = dto.getCount();
-
-
         logger.info("Deleted " +count + " elements");
+//        if (count == 0){
+//            MainFrame.errors.add("noSuchDate");
+//        }
+
+            MainFrame.responses.add("deleted");
+            MainFrame.responses.add(String.valueOf(count));
+            MainFrame.responses.add("elements");
+            MainFrame.responses.add("\r\n");
 
     }
 }

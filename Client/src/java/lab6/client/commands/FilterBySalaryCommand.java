@@ -6,6 +6,7 @@ import lab6.common.dto.CommandRequestDto;
 import lab6.common.dto.CommandResponseDto;
 import lab6.common.dto.FilterBySalaryCommandDto;
 import lab6.common.exceptions.InvalidSalaryException;
+import lab6.gui.main.MainFrame;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,6 +33,7 @@ public class FilterBySalaryCommand extends BaseCommand {
 
     @Override
     protected void Execute(List<String> params) throws InvalidSalaryException {
+        MainFrame.showBoolean = true;
         ParamsChecker.checkParams(1, params);
 
         FilterBySalaryCommandDto dto= new FilterBySalaryCommandDto();
@@ -49,6 +51,7 @@ public class FilterBySalaryCommand extends BaseCommand {
         CommandResponseDto response = (CommandResponseDto) transformer.DeSerialize(buf);
         dto = (FilterBySalaryCommandDto) response.getCommandArgs();
         List<Worker> workers = dto.getWorkers();
+        MainFrame.shows.add(workers);
         if (workers.size() == 0){
             logger.warn("No workers found");
         }

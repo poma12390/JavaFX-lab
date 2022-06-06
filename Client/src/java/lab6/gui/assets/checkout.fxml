@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="232.0" prefWidth="335.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lab6.gui.main.CheckOutFrame">
+   <children>
+      <Label fx:id="inputLabel" alignment="CENTER" layoutX="65.0" layoutY="14.0" prefHeight="48.0" prefWidth="181.0" text="Введите что-то" textAlignment="CENTER" />
+      <TextField fx:id="inputField" layoutX="84.0" layoutY="62.0" />
+      <Label fx:id="errorLabel" alignment="CENTER" layoutX="78.0" layoutY="92.0" prefHeight="55.0" prefWidth="166.0" textFill="RED" />
+      <Button fx:id="inputButton" layoutX="84.0" layoutY="149.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="81.0" text="Ввести" />
+      <Button fx:id="confirmButton" layoutX="236.0" layoutY="14.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="89.0" style="-fx-background-color: yellow;" text="Вы уверены?" visible="false" />
+      <Button fx:id="cancelButton" layoutX="168.0" layoutY="149.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="81.0" text="Отмена" />
+   </children>
+</AnchorPane>
